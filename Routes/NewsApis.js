@@ -3,8 +3,9 @@ const router = express.Router();
 const { NewsModel } = require("../Schemas/NewsSchema");
 
 const LIMIT = 10; 
+
 // fetch all the news from the database
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
   const doc = await NewsModel.find().limit(LIMIT);
   const error = {
     error: "There isn't any doc!!!",
@@ -12,45 +13,21 @@ router.get("/", async (req, res) => {
   res.json(doc ? doc : error);
 });
 
-// fetch according to given parameter
-
-// router.get("/:tag", async (req, res) => {
-//   const tag = req.params.tag;
-//   console.log(tag);
-//   const query = await NewsModel.find({ tag: tag }).limit(LIMIT);
-//   if (query.length > 0) {
-//     res.json(query);
-//     res.status(200);
-//   } else {
-//     res.json({ Error: "No specified tag found!" });
-//     res.status(404);
-//   }
-// });
-
-// temp object to check the apis 
-
-// const tempData = {
-//   timestamp: +new Date(),
-//   source: "VS code",
-//   headline: "NO STIPEND, NO HEADLINE",
-//   body: "what can I write here!",
-//   imageLink: "dont know yet",
-//   startupName: "Fantasy",
-// };
-
-// set/add news to the database
-// router.post("/post", async (req, res) => {
-//   const data = req.body;
-//   console.log(data);
-//   const news = new NewsModel(data);
-//   try {
-//     news.save();
-//     console.log("saved successfully", news);
-//     res.send("success");
-//   } catch (err) {
-//     console.log("Error!!", err);
-//     res.send("error");
-//   }
-// });
+// pagination
+router.get("/all/:page", async (req, res) => {
+  const para = req.params.page;
+  const page = parseInt(para)-1;
+  let pageCount = 0;
+  pageCount = await NewsModel.count();
+  let SKIP = page * LIMIT;
+  if(SKIP > pageCount || SKIP < 0) {
+    SKIP = 0;
+  }
+  const doc = await NewsModel.find().limit(LIMIT).skip(SKIP);
+  const error = {
+    error: "There isn't any doc!!!",
+  };
+  res.json(doc ? doc : error);
+});
 
 module.exports = router;
