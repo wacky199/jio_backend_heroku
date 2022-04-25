@@ -15,22 +15,24 @@ router.get("/", async (req, res) => {
 // fetch according to given parameter
 router.get("/:sector", async (req, res) => {
   const sector = req.params.sector;
-  console.log(sector);
-  const docs = await StartupModel.find();
-  let result = [];
-  docs.forEach((doc) => {
-    const sector_str = doc.sector;
-    const tags1 = sector_str.split("/");
-    const tags2 = sector_str.split(",");
-    const tags = tags1.concat(tags2);
-    tags.forEach((tag) => {
-      const str = tag.toLowerCase();
-      const str1 = str.trim();
-      if (str1.localeCompare(sector) === 0) {
-        result.push(doc);
-      }
-    });
-  });
+  // console.log(sector);
+  const result = await StartupModel.find({sector:{$regex:sector}}).limit( LIMIT);
+  // const docs = await StartupModel.find();
+  // let result = [];
+
+  // docs.forEach((doc) => {
+  //   const sector_str = doc.sector;
+  //   const tags1 = sector_str.split("/");
+  //   const tags2 = sector_str.split(",");
+  //   const tags = tags1.concat(tags2);
+  //   tags.forEach((tag) => {
+  //     const str = tag.toLowerCase();
+  //     const str1 = str.trim();
+  //     if (str1.localeCompare(sector) === 0) {
+  //       result.push(doc);
+  //     }
+  //   });
+  // });
   if (result.length > 0) {
     res.json(result);
     res.status(200);

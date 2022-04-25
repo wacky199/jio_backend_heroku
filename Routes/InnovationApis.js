@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 // const { InnovationModel } = require("../Schemas/InnovationSchema");
-const { StartupModel } = require("../Schemas/StartupSchema");
+const { NewsModel } = require("../Schemas/NewsSchema");
 
 
 
 const LIMIT = 10;
 // fetch all the innovation from the database
 router.get("/", async (req, res) => {
-  const doc = await StartupModel.find();
+  const doc = await NewsModel.find();
   const error = {
     error: "There isn't any doc!!!",
   };

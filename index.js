@@ -30,7 +30,7 @@ app.use("/api/innovation", Innovations);
 
 // to check if server is working
 app.get("/", (req, res) => {
-  res.send("here to get some messages!!!");
+  res.send("backend for jio project apis...!!!");
 });
 
 app.listen(PORT, () => {
