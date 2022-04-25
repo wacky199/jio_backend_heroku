@@ -5,6 +5,7 @@ const { NewsModel } = require("../Schemas/NewsSchema");
 
 
 const LIMIT = 10;
+
 // fetch all the innovation from the database
 router.get("/all", async (req, res) => {
   const doc = await NewsModel.find();

@@ -13,44 +13,6 @@ router.get("/all", async (req, res) => {
   res.json(doc ? doc : error);
 });
 
-// fetch according to given parameter
-router.get("/:sector", async (req, res) => {
-  const sector = req.params.sector;
-  const result = await StartupModel.find({ sector: { $regex: sector } }).limit(
-    LIMIT
-  );
-  if (result.length > 0) {
-    res.json(result);
-    res.status(200);
-  } else {
-    res.json({ Error: "No specified tag found!" });
-    res.status(404);
-  }
-});
-
-// pagination in sector startups
-router.get("/:sector/:page", async (req, res) => {
-  const sector = req.params.sector;
-  const para = req.params.page;
-  const page = parseInt(para) - 1;
-  let pageCount = 0;
-  pageCount = await StartupModel.count();
-  let SKIP = page * LIMIT;
-  if (SKIP > pageCount || SKIP < 0) {
-    SKIP = 0;
-  }
-  const result = await StartupModel.find({ sector: { $regex: sector } }).limit(
-    LIMIT
-  );
-  if (result.length > 0) {
-    res.json(result);
-    res.status(200);
-  } else {
-    res.json({ Error: "No specified tag found!" });
-    res.status(404);
-  }
-});
-
 // pagination
 router.get("/all/:page", async (req, res) => {
   const para = req.params.page;
@@ -67,5 +29,44 @@ router.get("/all/:page", async (req, res) => {
   };
   res.json(doc ? doc : error);
 });
+
+// fetch according to given parameter/sector
+router.get("/sector/:sector", async (req, res) => {
+  const sector = req.params.sector;
+  const result = await StartupModel.find({ sector: { $regex: sector } }).limit(
+    LIMIT
+  );
+  if (result.length > 0) {
+    res.json(result);
+    res.status(200);
+  } else {
+    res.json({ Error: "No specified tag found!" });
+    res.status(404);
+  }
+});
+
+// pagination in sector startups
+router.get("/sector/:sector/:page", async (req, res) => {
+  const sector = req.params.sector;
+  const para = req.params.page;
+  const page = parseInt(para) - 1;
+  let pageCount = 0;
+  pageCount = await StartupModel.count();
+  let SKIP = page * LIMIT;
+  if (SKIP > pageCount || SKIP < 0) {
+    SKIP = 0;
+  }
+  const result = await StartupModel.find({ sector: { $regex: sector } }).limit(
+    LIMIT
+  );
+  if (result.length > 0) {
+    res.json(result);
+    res.status(200);
+  } else {
+    res.json({ Error: "No specified tag found!" });
+    res.status(404);
+  }
+});
+
 
 module.exports = router;
