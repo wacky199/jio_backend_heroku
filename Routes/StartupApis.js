@@ -13,6 +13,7 @@ router.get("/all", async (req, res) => {
   res.json(doc ? doc : error);
 });
 
+
 // pagination
 router.get("/all/:page", async (req, res) => {
   const para = req.params.page;
@@ -27,6 +28,7 @@ router.get("/all/:page", async (req, res) => {
   const error = {
     error: "There isn't any doc!!!",
   };
+  res.append("objCount", pageCount);
   res.json(doc ? doc : error);
 });
 
@@ -59,6 +61,7 @@ router.get("/sector/:sector/:page", async (req, res) => {
   const result = await StartupModel.find({ sector: { $regex: sector } }).limit(
     LIMIT
   );
+  res.append("objCount", pageCount);
   if (result.length > 0) {
     res.json(result);
     res.status(200);

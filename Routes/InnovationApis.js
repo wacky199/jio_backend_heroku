@@ -3,7 +3,6 @@ const router = express.Router();
 // const { InnovationModel } = require("../Schemas/InnovationSchema");
 const { NewsModel } = require("../Schemas/NewsSchema");
 
-
 const LIMIT = 10;
 
 // fetch all the innovation from the database
@@ -12,7 +11,7 @@ router.get("/all", async (req, res) => {
   const error = {
     error: "There isn't any doc!!!",
   };
-  doc.slice(-LIMIT,)
+  doc.slice(-LIMIT);
   res.json(doc ? doc : error);
 });
 
@@ -30,6 +29,7 @@ router.get("/all/:page", async (req, res) => {
   const error = {
     error: "There isn't any doc!!!",
   };
+  res.append("objCount", pageCount);
   res.json(doc ? doc : error);
 });
 

@@ -27,6 +27,7 @@ router.get("/all/:page", async (req, res) => {
   const error = {
     error: "There isn't any doc!!!",
   };
+  res.append("objCount", pageCount);
   res.json(doc ? doc : error);
 });
 
