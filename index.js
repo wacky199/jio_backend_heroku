@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("./Db");
 const app = express();
+const {getdata} = require("./checkApis");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
@@ -17,7 +18,7 @@ app.use(cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
@@ -33,6 +34,8 @@ app.use("/api/innovation", Innovations);
 app.get("/", (req, res) => {
   res.send("backend for jio project startups aggregator apis...!!!");
 });
+
+// getdata();
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
