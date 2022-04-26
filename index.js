@@ -17,6 +17,7 @@ app.use(cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "*");
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
@@ -30,7 +31,7 @@ app.use("/api/innovation", Innovations);
 
 // to check if server is working
 app.get("/", (req, res) => {
-  res.send("backend for jio project apis...!!!");
+  res.send("backend for jio project (startups aggregator) apis...!!!");
 });
 
 app.listen(PORT, () => {
